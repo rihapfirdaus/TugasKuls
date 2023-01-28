@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="in" translate="no">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Document</title>
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            cursor: default;
+        }
+
+        *::-webkit-scrollbar {
+            width: 0;
+            color: transparent;
+            background-color: transparent;
+        }
+
+        a:hover {
+            cursor: pointer;
+        }
+
+        .page {
+            background-color: dimgrey;
+            /* background: linear-gradient(to top, darkolivegreen, olive); */
+            width: 100%;
+            /* height: 100vh; */
+            padding: 1em;
+        }
+
+        .box {
+            background-color: silver;
+            padding: 1.5em 1em;
+            border-radius: 1.5em;
+            box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
+            max-width: 50em;
+            margin: 1em auto;
+        }
+
+        .box h1 {
+            text-align: center;
+            margin: 0.5em;
+        }
+
+        form {
+            text-align: center;
+            margin: 0.5em 0;
+        }
+
+        form .input {
+            display: flex;
+            flex-direction: column;
+        }
+
+        form .input label {
+            text-indent: 0.5em;
+            text-align: start;
+            padding: 0.5em 0 0 0;
+        }
+
+        form input[type=text],
+        form input[type=date],
+        form input[type=time],
+        form input[type=submit],
+        form input[type=search],
+        form .input select,
+        form .input textarea {
+            padding: 0.25em 0.5em;
+            border-radius: 0.5em;
+            border-color: transparent;
+            outline: none;
+            cursor: text;
+        }
+
+        form input[type=date],
+        form input[type=time],
+        form input[type=submit],
+        form .input select {
+            cursor: pointer;
+        }
+
+        form input[type=submit] {
+            margin-top: 1em;
+            transition: 0.5s;
+        }
+
+        form .input .input-inline,
+        form.input-btn {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        form .input .input-inline input {
+            width: 49%;
+        }
+
+        form.input-btn input {
+            width: 100%;
+            margin-right: 0.25em;
+        }
+
+        form input[type=submit]:hover,
+        button.material-symbols-outlined:hover {
+            transform: scale(0.95);
+            background-color: grey;
+        }
+
+        button.material-symbols-outlined {
+            font-size: medium;
+            padding: 0.25em;
+            border-radius: 0.5em;
+            border-color: transparent;
+            cursor: pointer;
+            transition: 0.5s;
+            margin-left: 0.15em;
+        }
+
+        .list {
+            margin: 0.25em 0;
+            background-color: darkgray;
+            padding: 0.35em 0.5em;
+            border-radius: 0.5em;
+        }
+
+        .opsi {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .list.data .top,
+        .list.data .mid {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .list.empty p {
+            color: gray;
+            text-align: center;
+            margin: 2em;
+        }
+
+        .list .action {
+            min-width: fit-content;
+        }
+
+        .edit.box {
+            display: block;
+        }
+
+        .parent {
+            max-height: 9em;
+            overflow-y: auto;
+        }
+
+        header {
+            margin: 5em 0 3em 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        header h4 {
+            border-top: 1px solid black;
+            padding: 0 1em;
+        }
+
+        header p {
+            font-size: small;
+            background-color: gray;
+            font-weight: 500;
+            padding: 0 1em;
+            border-radius: 1em;
+            margin-top: 2em;
+        }
+
+        header.fixed {
+            margin: unset;
+            padding: 1em 0;
+            background-color: silver;
+            position: fixed;
+            top: -5em;
+            left: 0;
+            width: 100%;
+            box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
+            transition: 1s;
+        }
+
+        .alertbox {
+            position: fixed;
+            bottom: 2em;
+            left: 50%;
+            transform: translatex(-50%);
+            background-color: gray;
+            padding: 0.15em 0.5em;
+            box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
+            border-radius: 0.15em;
+            text-align: center;
+            font-size: small;
+            opacity: 0;
+            z-index: -1;
+            transition: 0.25s;
+        }
+
+        footer {
+            font-size: small;
+            text-align: center;
+            margin: 3em 0 2em 0;
+        }
+
+        footer a {
+            color: white;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+    <section class="task page">
+        <header>
+            <h1>TugasKuls</h1>
+            <h4>website pengelola tugas kuliah</h4>
+            <p>5 tugas belum dikerjakan</p>
+        </header>
+        <header class="fixed">
+            <h3>TugasKuls</h3>
+        </header>
+        <section class="form box">
+            <h1>buat tugas baru</h1>
+            <form id="taskForm">
+                <div class="input">
+                    <label for="formTitle">mata kuliah:</label>
+                    <select name="matakuliah" id="formTitle" title="pilih mata kuliah untuk tugas anda" required>
+                        <option value="" disabled selected hidden>pilih mata kuliah</option>
+                        <option value="setting">edit opsi mata kuliah</option>
+                    </select>
+                </div>
+                <div class="input">
+                    <label for="deadline">deadline:</label>
+                    <div class="input-inline">
+                        <input type="date" name="btstgl" id="formDate" title="masukkan batas tanggal" required>
+                        <input type="time" name="btswkt" id="formTime" title="masukkan batas waktu" value="23:59"
+                            required>
+                    </div>
+                </div>
+                <div class="input">
+                    <label for="desc">deskripsi:</label>
+                    <textarea name="description" id="formDesc" cols="30" rows="5" placeholder="deskripsikan tugas anda"
+                        title="jelaskan tugas yang harus anda kerjakan" required></textarea>
+                </div>
+                <input type="submit" value="simpan">
+            </form>
+        </section>
+        <section class="search box">
+            <h1>cari tugas</h1>
+            <form class="input-btn" id="searchForm">
+                <input type="search" id="searchText" placeholder="masukkan nama mata kuliah">
+                <button class="material-symbols-outlined">search</button>
+            </form>
+            <div class="parent" id="searchValue">
+            </div>
+        </section>
+        <section class="box">
+            <h1>belum selesai</h1>
+            <div class="parent" id="uncompleteTask">
+                <!-- <div class="list empty">
+                    <p>tidak ada data</p>
+                </div> -->
+                <!-- <div class="list data">
+                    <div class="top">
+                        <h4>ini judul list</h4>
+                        <p>ini countdown</p>
+                    </div>
+                    <div class="mid">
+                        <div>
+                            <p>ini deadline</p>
+                            <p>ini deskripsi</p>
+                        </div>
+                        <div>
+                            <button class="material-symbols-outlined">edit</button>
+                            <button class="material-symbols-outlined">delete</button>
+                            <button class="material-symbols-outlined">check</button>
+                        </div>
+                    </div>
+                </div> -->
+            </div>
+        </section>
+        <section class="box">
+            <h1>sudah selesai</h1>
+            <div class="parent" id="completeTask">
+                <!-- <div class="list data">
+                    <div class="top">
+                        <h4>ini judul list</h4>
+                        <p>ini countdown</p>
+                    </div>
+                    <div class="mid">
+                        <div>
+                            <p>ini deadline</p>
+                            <p>ini deskripsi</p>
+                        </div>
+                        <div>
+                            <button class="material-symbols-outlined">edit</button> -->
+                <!-- <button class="material-symbols-outlined">delete</button>
+                            <button class="material-symbols-outlined">undo</button>
+                        </div>
+                    </div> -->
+                <!-- </div> -->
+            </div>
+        </section>
+        <section class="edit box" id="editOption">
+            <h1>edit opsi mata kuliah</h1>
+            <form class="input-btn" id="matkulForm">
+                <input type="text" name="newoption" id="formOption" title="masukkan nama matkul baru"
+                    placeholder="masukkan nama matkul baru" required>
+                <button class="material-symbols-outlined">save</button>
+            </form>
+            <div class="parent" id="listOption">
+                <!-- <div class="list opsi">
+                    <h4>ini judul list</h4>
+                    <div>
+                        <button class="material-symbols-outlined">edit</button>
+                        <button class="material-symbols-outlined">delete</button>
+                    </div>
+                </div> -->
+            </div>
+        </section>
+        <footer>
+            <p>
+                <a href="http://">send me message</a> |
+                <a href="http://">other website</a> |
+                <a href="http://">about developer</a>
+            </p>
+        </footer>
+    </section>
+</body>
+
+<script>
+    const matkul = [];
+    const tugas = [];
+    const UPDATE_EVENT = 'update-data';
+    const RENDER_EVENT = 'render-data';
+    const MATKULS_STRG = 'DAFTAR_MATKUL';
+    const LIST_STRG = 'DAFTAR_TUGAS';
+
+    navigator.storage.estimate().then(function (estimate) {
+        if (estimate.usage > (estimate.quota * 0.9)) {
+            alert(
+                "Local storage hampir penuh. Silakan hapus data yang tidak digunakan untuk mengosongkan ruang."
+            );
+        }
+    });
+
+    window.addEventListener('load', function () {
+        const taskForm = document.getElementById('taskForm');
+        const matkulForm = document.getElementById('matkulForm');
+
+        taskForm.addEventListener('submit', function (event) {
+            event.preventDefault();
+            addTask();
+            alertbox('tugas berhasil ditambahkan');
+            this.reset();
+        });
+        matkulForm.addEventListener('submit', function (event) {
+            event.preventDefault();
+            addMatkul();
+            alertbox('opsi baru berhasil ditambahkan');
+            this.reset();
+        });
+
+        if (isStorageExist()) {
+            loadDataFromStorage();
+        }
+    });
+
+    window.addEventListener('scroll', function () {
+        const header = document.querySelector('header.fixed');
+        const observer = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                if (entry.intersectionRatio < 0.5) {
+                    header.setAttribute('style', 'top: 0;');
+                } else {
+                    header.removeAttribute('style');
+                }
+            });
+        });
+        const element = document.querySelector('header h1');
+        observer.observe(element);
+    });
+
+    document.addEventListener(UPDATE_EVENT, function () {
+        const selectOption = document.getElementById('formTitle');
+        selectOption.innerHTML = "";
+        const listOption = document.getElementById('listOption');
+        listOption.innerHTML = "";
+
+        const defaultSelection = document.createElement('option');
+        defaultSelection.textContent = "pilih mata kuliah";
+        defaultSelection.value = "";
+        defaultSelection.hidden = true;
+        defaultSelection.selected = true;
+        defaultSelection.disabled = true;
+
+        const settingSelection = document.createElement('option');
+        settingSelection.textContent = "scroll ke bawah untuk menambahkan mata kuliah";
+        settingSelection.value = "";
+        settingSelection.disabled = true;
+
+
+        selectOption.append(defaultSelection);
+
+        if (matkul.length > 0) {
+            for (const matkulItem of matkul) {
+                const matkulOptionElement = makeMatkulOption(matkulItem);
+                const matkulListElement = makeMatkulList(matkulItem);
+                selectOption.append(matkulOptionElement);
+                listOption.append(matkulListElement);
+            }
+        } else {
+            listOption.append(listIsEmpty());
+        }
+        selectOption.append(settingSelection);
+
+    });
+
+    document.addEventListener(RENDER_EVENT, function () {
+        const taskCounter = document.querySelector('header > p');
+        const uncompleteTask = document.getElementById('uncompleteTask');
+        uncompleteTask.innerHTML = "";
+        const completeTask = document.getElementById('completeTask');
+        completeTask.innerHTML = "";
+
+        tugas.sort(function (a, b) {
+            return new Date(a.taskDeadline) - new Date(b.taskDeadline);
+        });
+
+        let taskCompleted = filterComplete(tugas, true);
+        let taskUncompleted = filterComplete(tugas, false);
+
+        if (taskCompleted.length > 0) {
+            for (const completeItem of taskCompleted) {
+                const completeElement = makeTugasList(completeItem);
+                completeTask.append(completeElement);
+            }
+        } else {
+            completeTask.append(listIsEmpty());
+        }
+
+        if (taskUncompleted.length > 0) {
+            for (const uncompleteItem of taskUncompleted) {
+                const uncompleteElement = makeTugasList(uncompleteItem);
+                uncompleteTask.append(uncompleteElement);
+            }
+        } else {
+            uncompleteTask.append(listIsEmpty());
+        }
+
+        if (taskCompleted.length == 0 && taskUncompleted.length == 0) {
+            taskCounter.textContent = "anda belum menambahkan tugas";
+        } else if (taskCompleted.length > 0 && taskUncompleted.length == 0) {
+            taskCounter.textContent = "semua tugas telah dikerjakan";
+        } else if (taskUncompleted.length > 0) {
+            taskCounter.textContent = taskUncompleted.length + " tugas belum dikerjakan";
+        }
+    });
+
+    document.getElementById('searchText').addEventListener('keyup', function () {
+        const searchKey = this.value;
+
+        let arrayValue = tugas.filter(item => item.taskTitle.includes(searchKey));
+
+        const valueBox = document.getElementById('searchValue');
+
+        if (searchKey === "") {
+            valueBox.innerHTML = '';
+        } else {
+            valueBox.innerHTML = '';
+            if (arrayValue.length > 0) {
+                for (const valueItem of arrayValue) {
+                    const valueElement = makeTugasList(valueItem);
+                    valueBox.append(valueElement);
+                }
+            } else {
+                valueBox.append(listIsEmpty());
+            }
+
+        }
+    });
+
+    function listIsEmpty() {
+        const outer = document.createElement('div');
+        outer.classList.add('list', 'empty');
+        const message = document.createElement('p');
+        message.textContent = 'tidak ada data';
+
+        outer.append(message);
+        return outer;
+    }
+
+    function isStorageExist() {
+        if (typeof (Storage) === undefined) {
+            alert('Browser kamu tidak mendukung local storage');
+            return false;
+        }
+        return true;
+    }
+
+    function loadDataFromStorage() {
+        const matkulFromStrg = localStorage.getItem(MATKULS_STRG);
+        const tugasFromStrg = localStorage.getItem(LIST_STRG);
+
+        let dataMatkul = JSON.parse(matkulFromStrg);
+        let dataTugas = JSON.parse(tugasFromStrg);
+
+        if (dataMatkul !== null) {
+            for (const matkulElement of dataMatkul) {
+                matkul.push(matkulElement);
+            }
+        }
+
+        if (dataTugas !== null) {
+            for (const tugasElement of dataTugas) {
+                tugas.push(tugasElement);
+            }
+        }
+
+        document.dispatchEvent(new Event(RENDER_EVENT));
+        document.dispatchEvent(new Event(UPDATE_EVENT));
+    }
+
+    function saveData() {
+        if (isStorageExist()) {
+            const matkul_parsed = JSON.stringify(matkul);
+            const tugas_parsed = JSON.stringify(tugas);
+            localStorage.setItem(MATKULS_STRG, matkul_parsed);
+            localStorage.setItem(LIST_STRG, tugas_parsed);
+        }
+    }
+
+    function generateId() {
+        return +new Date();
+    }
+
+    function generateMatkul(id, matkulTitle) {
+        return {
+            id,
+            matkulTitle
+        }
+    }
+
+    function generateTugas(id, taskTitle, taskDeadline, taskDescription, isCompleted) {
+        return {
+            id,
+            taskTitle,
+            taskDeadline,
+            taskDescription,
+            isCompleted
+        }
+    }
+
+    function addMatkul() {
+        const matkulTitle = document.getElementById('formOption').value;
+        const generatedID = generateId();
+
+        const matkulObject = generateMatkul(generatedID, matkulTitle);
+        matkul.push(matkulObject);
+
+        document.dispatchEvent(new Event(UPDATE_EVENT));
+
+        saveData();
+    }
+
+    function addTask() {
+        const taskTitle = document.getElementById('formTitle').value;
+        const taskDeadline = document.getElementById('formDate').value + "T" + document.getElementById('formTime')
+            .value;
+        const taskDescription = document.getElementById('formDesc').value;
+
+        const generatedID = generateId();
+        const taskObject = generateTugas(generatedID, taskTitle, taskDeadline, taskDescription,
+            false);
+
+        tugas.push(taskObject);
+
+        document.dispatchEvent(new Event(RENDER_EVENT));
+
+        saveData();
+    }
+
+    function makeMatkulOption(matkulObject) {
+        const option = document.createElement('option');
+        option.value = matkulObject.matkulTitle;
+        option.textContent = matkulObject.matkulTitle;
+
+        return option;
+    }
+
+    function makeMatkulList(matkulObject) {
+        const title = document.createElement('h4');
+        title.textContent = matkulObject.matkulTitle;
+
+        const action = document.createElement('div');
+        action.classList.add('action');
+
+        // const editBTN = document.createElement('button');
+        // editBTN.classList.add('material-symbols-outlined');
+        // editBTN.textContent = 'edit';
+        // editBTN.addEventListener('click', function () {
+
+        // });
+        let firstClickTime;
+        let clickTimeout = 3000;
+
+        const dltBTN = document.createElement('button');
+        dltBTN.classList.add('material-symbols-outlined');
+        dltBTN.textContent = 'delete';
+        dltBTN.addEventListener('click', function () {
+            if (!firstClickTime) {
+                firstClickTime = Date.now();
+                alertbox('tekan lagi untuk menghapus');
+            } else {
+                if (Date.now() - firstClickTime < clickTimeout) {
+                    removeList(matkul, matkulObject.id);
+                    alertbox('opsi telah dihapus');
+                } else {
+                    firstClickTime = Date.now();
+                    alertbox('tekan lagi untuk menghapus');
+
+                }
+            }
+        });
+
+        action.append(dltBTN);
+
+        const outer = document.createElement('div');
+        outer.classList.add('list', 'opsi');
+        outer.setAttribute('id', `list-${matkulObject.id}`);
+        outer.append(title, action);
+
+        return outer;
+    }
+
+    function makeTugasList(taskObject) {
+        const title = document.createElement('h4');
+        title.textContent = taskObject.taskTitle;
+
+        const countdown = document.createElement('p');
+        countdown.style.color = 'darkgreen';
+        countdown.style.minWidth = 'fit-content';
+        countdown.style.marginLeft = '0.5em';
+
+        const innerTop = document.createElement('div');
+        innerTop.classList.add('top');
+        innerTop.style.alignItems = "center";
+        innerTop.append(title, countdown);
+
+        const deadline = document.createElement('p');
+        deadline.textContent = shownDate(taskObject.taskDeadline);
+
+        const description = document.createElement('p');
+        description.textContent = taskObject.taskDescription;
+
+        const copyBTN = document.createElement('button');
+        copyBTN.classList.add('material-symbols-outlined');
+        copyBTN.textContent = 'Content_Copy';
+        copyBTN.title = 'salin untuk membagikan tugas';
+        copyBTN.addEventListener('click', function () {
+            let teks =
+                `Tugas ${taskObject.taskTitle}\ndeadline: ${deadline.innerText}\n${taskObject.taskDescription}`;
+            navigator.clipboard.writeText(teks);
+            alertbox('tugas disalin ke papan klip');
+        });
+
+        let firstClickTime;
+        let clickTimeout = 3000;
+
+        const dltBTN = document.createElement('button');
+        dltBTN.classList.add('material-symbols-outlined');
+        dltBTN.textContent = 'delete';
+        dltBTN.addEventListener('click', function () {
+            if (!firstClickTime) {
+                firstClickTime = Date.now();
+                alertbox('tekan lagi untuk menghapus');
+            } else {
+                if (Date.now() - firstClickTime < clickTimeout) {
+                    removeList(tugas, taskObject.id);
+                    alertbox('tugas telah dihapus');
+                } else {
+                    firstClickTime = Date.now();
+                    alertbox('tekan lagi untuk menghapus');
+
+                }
+            }
+        });
+
+        const undoBTN = document.createElement('button');
+        undoBTN.classList.add('material-symbols-outlined');
+        undoBTN.textContent = 'undo';
+        undoBTN.title = 'tandai belum selesai';
+        undoBTN.addEventListener('click', function () {
+            undoTaskFromComplete(taskObject.id);
+        });
+
+        const checkBTN = document.createElement('button');
+        checkBTN.classList.add('material-symbols-outlined');
+        checkBTN.textContent = 'check';
+        checkBTN.title = 'tandai sudah selesai';
+        checkBTN.addEventListener('click', function () {
+            changeTaskToComplete(taskObject.id);
+        });
+
+        const action = document.createElement('action');
+        action.classList.add('action');
+
+        if (taskObject.isCompleted) {
+            countdown.textContent = 'tugas selesai';
+            action.append(dltBTN, undoBTN);
+        } else {
+            getCountdown(countdown, taskObject.taskDeadline);
+            action.append(dltBTN, copyBTN, checkBTN);
+        }
+
+        const innerMid = document.createElement('div');
+        innerMid.classList.add('mid');
+        innerMid.append(description, action);
+
+        const outer = document.createElement('div');
+        outer.classList.add('list', 'data');
+        outer.setAttribute('id', `tugas-${taskObject.id}`);
+        outer.append(innerTop, deadline, innerMid);
+
+        return outer;
+    }
+
+    function findElement(array, elementId) {
+        for (const item of array) {
+            if (item.id === elementId) {
+                return item;
+            }
+        }
+        return null;
+    }
+
+    function findElementIndex(array, elementId) {
+        for (const index in array) {
+            if (array[index].id === elementId) {
+                return index;
+            }
+        }
+        return -1;
+    }
+
+    function changeTaskToComplete(taskId) {
+        const taskTarget = findElement(tugas, taskId);
+
+        if (taskTarget == null) return;
+
+        taskTarget.isCompleted = true;
+        document.dispatchEvent(new Event(RENDER_EVENT));
+        saveData();
+    }
+
+    function undoTaskFromComplete(taskId) {
+        const taskTarget = findElement(tugas, taskId);
+
+        if (taskTarget == null) return;
+
+        taskTarget.isCompleted = false;
+        document.dispatchEvent(new Event(RENDER_EVENT));
+        saveData();
+    }
+
+    function removeList(array, elementId) {
+        const elementTarget = findElementIndex(array, elementId);
+
+        if (elementTarget === -1) return;
+
+        array.splice(elementTarget, 1);
+
+        document.dispatchEvent(new Event(UPDATE_EVENT));
+        document.dispatchEvent(new Event(RENDER_EVENT));
+        saveData();
+    }
+
+    function getCountdown(element, date) {
+        let now = new Date();
+        let end = new Date(date);
+        let distance = selisih(now, end);
+
+        function selisih(start, finish) {
+            return (finish - start);
+        }
+
+        function days(num) {
+            return Math.floor(num / (1000 * 60 * 60 * 24));
+        }
+
+        function hours(num) {
+            return Math.floor((num % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        }
+
+        function minutes(num) {
+            return Math.floor((num % (1000 * 60 * 60)) / (1000 * 60));
+        }
+
+        function seconds(num) {
+            return Math.floor((num % (1000 * 60)) / 1000);
+        }
+
+        function runCounter(message, callback, interval, finish) {
+            let counter = setInterval(function () {
+                start = new Date();
+                distance = selisih(start, finish);
+                if (distance <= interval) {
+                    clearInterval(counter);
+                    document.dispatchEvent(new Event(RENDER_EVENT));
+                } else element.textContent = callback() + message;
+            }, interval);
+        }
+
+        if (distance >= 86400000) {
+            element.textContent = days(distance) + " hari lagi";
+            runCounter(' hari lagi', () => days(distance), 86400000, end);
+        } else if (distance >= 3600000) {
+            element.textContent = hours(distance) + " jam lagi";
+            runCounter(' jam lagi', () => hours(distance), 3600000, end);
+        } else if (distance >= 60000) {
+            element.textContent = minutes(distance) + " menit lagi";
+            runCounter(' menit lagi', () => minutes(distance), 60000, end);
+        } else if (distance >= 0) {
+            element.textContent = seconds(distance) + " detik lagi";
+            runCounter(' detik lagi', () => seconds(distance), 1000, end);
+        } else {
+            element.style.color = 'darkred';
+            element.textContent = "waktu habis";
+        }
+    }
+
+    function shownDate(date) {
+        const theDate = new Date(date);
+
+        function timeInStr(now) {
+            let hoursStr = now.getHours();
+            if (hoursStr < 10) hoursStr = "0" + now.getHours();
+
+            let minutesStr = now.getMinutes();
+            if (minutesStr < 10) minutesStr = "0" + minutesStr;
+
+            return hoursStr + ":" + minutesStr;
+        }
+
+        function dateInStr(now) {
+            let dayStr = now.getDay();
+            let dateStr = now.getDate();
+            let monthStr = now.getMonth();
+            let yearStr = now.getFullYear();
+
+            if (dayStr == 0) dayStr = 'Minggu';
+            else if (dayStr == 1) dayStr = 'Senin';
+            else if (dayStr == 2) dayStr = 'Selasa';
+            else if (dayStr == 3) dayStr = 'Rabu';
+            else if (dayStr == 4) dayStr = 'Kamis';
+            else if (dayStr == 5) dayStr = 'Jumat';
+            else if (dayStr == 6) dayStr = 'Sabtu';
+
+            if (monthStr == 0) monthStr = 'Januari';
+            else if (monthStr == 1) monthStr = 'Februari';
+            else if (monthStr == 2) monthStr = 'Maret';
+            else if (monthStr == 3) monthStr = 'April';
+            else if (monthStr == 4) monthStr = 'Mei';
+            else if (monthStr == 5) monthStr = 'Juni';
+            else if (monthStr == 6) monthStr = 'Juli';
+            else if (monthStr == 7) monthStr = 'Agustus';
+            else if (monthStr == 8) monthStr = 'September';
+            else if (monthStr == 9) monthStr = 'Oktober';
+            else if (monthStr == 10) monthStr = 'November';
+            else if (monthStr == 11) monthStr = 'Desember';
+
+            return `${dayStr}, ${dateStr} ${monthStr} ${yearStr}`;
+        }
+
+        const fullDateInStr = `${timeInStr(theDate)} | ${dateInStr(theDate)}`;
+
+        return fullDateInStr;
+    }
+
+    function filterComplete(array, boolean) {
+        return array.filter(item => item.isCompleted == boolean);
+    }
+
+    function alertbox(message) {
+        const previousBox = document.querySelector('.alertbox');
+        if (previousBox) {
+            document.body.removeChild(previousBox);
+        }
+        const box = document.createElement('p');
+        box.classList.add('alertbox');
+        box.textContent = message;
+
+        const body = document.querySelector('body');
+        body.appendChild(box);
+
+        setTimeout(function () {
+            box.style.opacity = '1';
+            box.style.zIndex = '2';
+        }, 200);
+        setTimeout(function () {
+            document.body.removeChild(box);
+        }, 3000);
+    }
+</script>
+
+</html>
